@@ -14,33 +14,55 @@
         {% if blog.pages %}
             {% for page in blog.pages | slice(end=5) %}
             <article class="post-card">
-                <div class="post-meta">
-                    <time class="post-date">{{ page.date | date(format="%B %d, %Y") }}</time>
-                    {% if page.reading_time %}
-                        <span class="read-time">{{ page.reading_time }} min read</span>
+                <!-- Featured Image for Post Card -->
+                {% if page.extra.featured_image %}
+                <div class="post-image">
+                    <a href="{{ page.permalink }}">
+                        {% if page.extra.featured_image | split(pat=".") | last == "svg" %}
+                            <img src="{{ get_url(path=page.extra.featured_image) }}" 
+                                 alt="{{ page.extra.featured_image_alt | default(value=page.title) }}"
+                                 loading="lazy">
+                        {% else %}
+                            {% set image = resize_image(path=page.extra.featured_image, width=600, height=300, op="fill") %}
+                            <img src="{{ image.url }}" 
+                                 alt="{{ page.extra.featured_image_alt | default(value=page.title) }}"
+                                 width="{{ image.width }}" 
+                                 height="{{ image.height }}"
+                                 loading="lazy">
+                        {% endif %}
+                    </a>
+                </div>
+                {% endif %}
+
+                <div class="post-content">
+                    <div class="post-meta">
+                        <time class="post-date">{{ page.date | date(format="%B %d, %Y") }}</time>
+                        {% if page.reading_time %}
+                            <span class="read-time">{{ page.reading_time }} min read</span>
+                        {% endif %}
+                        {% if page.word_count %}
+                            <span class="word-count">{{ page.word_count }} words</span>
+                        {% endif %}
+                    </div>
+                    
+                    <h3 class="post-title">
+                        <a href="{{ page.permalink }}">{{ page.title }}</a>
+                    </h3>
+                    
+                    {% if page.description %}
+                        <p class="post-summary">{{ page.description }}</p>
+                    {% elif page.summary %}
+                        <p class="post-summary">{{ page.summary }}</p>
                     {% endif %}
-                    {% if page.word_count %}
-                        <span class="word-count">{{ page.word_count }} words</span>
+                    
+                    {% if page.taxonomies.tags %}
+                        <div class="post-tags">
+                            {% for tag in page.taxonomies.tags %}
+                                <a href="/tags/{{ tag | slugify }}" class="tag">#{{ tag }}</a>
+                            {% endfor %}
+                        </div>
                     {% endif %}
                 </div>
-                
-                <h3 class="post-title">
-                    <a href="{{ page.permalink }}">{{ page.title }}</a>
-                </h3>
-                
-                {% if page.description %}
-                    <p class="post-summary">{{ page.description }}</p>
-                {% elif page.summary %}
-                    <p class="post-summary">{{ page.summary }}</p>
-                {% endif %}
-                
-                {% if page.taxonomies.tags %}
-                    <div class="post-tags">
-                        {% for tag in page.taxonomies.tags %}
-                            <a href="/tags/{{ tag | slugify }}" class="tag">#{{ tag }}</a>
-                        {% endfor %}
-                    </div>
-                {% endif %}
             </article>
             {% endfor %}
             

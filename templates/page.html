@@ -5,6 +5,24 @@
 
 {% block content %}
 <article class="article-content">
+    <!-- Featured Image -->
+    {% if page.extra.featured_image %}
+    <div class="article-featured-image">
+        {% if page.extra.featured_image | split(pat=".") | last == "svg" %}
+            <img src="{{ get_url(path=page.extra.featured_image) }}" 
+                 alt="{{ page.extra.featured_image_alt | default(value=page.title) }}"
+                 loading="lazy">
+        {% else %}
+            {% set image = resize_image(path=page.extra.featured_image, width=1200, height=600, op="fill") %}
+            <img src="{{ image.url }}" 
+                 alt="{{ page.extra.featured_image_alt | default(value=page.title) }}"
+                 width="{{ image.width }}" 
+                 height="{{ image.height }}"
+                 loading="lazy">
+        {% endif %}
+    </div>
+    {% endif %}
+
     <header class="article-header">
         <h1>{{ page.title }}</h1>
         

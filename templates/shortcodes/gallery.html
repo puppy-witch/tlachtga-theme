@@ -1,15 +1,21 @@
 <div class="image-gallery">
-    {% if title %}
-    <h3 class="gallery-title">{{ title }}</h3>
-    {% endif %}
-    <div class="gallery-grid">
-        {% for image in images %}
-        <figure class="gallery-item">
-            <img src="{{ image.src }}" alt="{{ image.alt }}" loading="lazy">
-            {% if image.caption %}
-            <figcaption>{{ image.caption }}</figcaption>
-            {% endif %}
-        </figure>
-        {% endfor %}
+    {% for image in images %}
+    <div class="gallery-item">
+        {% if image | split(pat=".") | last == "svg" %}
+            <img src="{{ get_url(path=image) }}" 
+                 alt="{{ alt[loop.index0] | default(value="Gallery image") }}"
+                 loading="lazy">
+        {% else %}
+            {% set resized = resize_image(path=image, width=400, height=300, op="fill") %}
+            <img src="{{ resized.url }}" 
+                 alt="{{ alt[loop.index0] | default(value="Gallery image") }}"
+                 width="{{ resized.width }}" 
+                 height="{{ resized.height }}"
+                 loading="lazy">
+        {% endif %}
+        {% if captions and captions[loop.index0] %}
+            <div class="caption">{{ captions[loop.index0] }}</div>
+        {% endif %}
     </div>
+    {% endfor %}
 </div>

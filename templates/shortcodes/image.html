@@ -1,0 +1,26 @@
+<!-- ~/Dev/tlachtga-theme/templates/shortcodes/image.html -->
+<figure class="article-image {{ class | default(value="") }}">
+    {% if src | split(pat=".") | last == "svg" %}
+        <img src="{{ get_url(path=src) }}" 
+             alt="{{ alt | default(value="") }}"
+             loading="lazy">
+    {% else %}
+        {% if width and height %}
+            {% set resized = resize_image(path=src, width=width, height=height, op=op | default(value="fit")) %}
+        {% elif width %}
+            {% set resized = resize_image(path=src, width=width, op="fit_width") %}
+        {% elif height %}
+            {% set resized = resize_image(path=src, height=height, op="fit_height") %}
+        {% else %}
+            {% set resized = resize_image(path=src, width=800, op="fit_width") %}
+        {% endif %}
+        <img src="{{ resized.url }}" 
+             alt="{{ alt | default(value="") }}"
+             width="{{ resized.width }}" 
+             height="{{ resized.height }}"
+             loading="lazy">
+    {% endif %}
+    {% if caption %}
+        <figcaption>{{ caption }}</figcaption>
+    {% endif %}
+</figure>
