@@ -86,7 +86,8 @@ class TlachtgaThemeSwitcher {
       dark: '🌙',
       light: '☀️', 
       retro: '📟',
-      'high-contrast': '🔳'
+      high-contrast: '🔳'
+      amber: '🟡'
     };
     return icons[theme] || '🎨';
   }

@@ -10,25 +10,45 @@
     <section class="recent-posts">
         <h2>Recent Posts</h2>
         
-        <!-- For now, let's create a sample post -->
-        <article class="post-card">
-            <div class="post-meta">
-                <time class="post-date">June 15, 2025</time>
-                <span class="read-time">5 min read</span>
-            </div>
+        {% set blog_section = get_section(path="blog/_index.md") %}
+        {% if blog_section.pages %}
+            {% for page in blog_section.pages | slice(end=5) %}
+            <article class="post-card">
+                <div class="post-meta">
+                    <time class="post-date">{{ page.date | date(format="%B %d, %Y") }}</time>
+                    {% if page.reading_time %}
+                        <span class="read-time">{{ page.reading_time }} min read</span>
+                    {% endif %}
+                </div>
+                
+                <h3 class="post-title">
+                    <a href="{{ page.permalink }}">{{ page.title }}</a>
+                </h3>
+                
+                {% if page.description %}
+                    <p class="post-summary">{{ page.description }}</p>
+                {% elif page.summary %}
+                    <p class="post-summary">{{ page.summary }}</p>
+                {% endif %}
+                
+                {% if page.taxonomies.tags %}
+                    <div class="post-tags">
+                        {% for tag in page.taxonomies.tags %}
+                            <a href="{{ get_taxonomy_url(kind="tags", name=tag) }}" class="tag">#{{ tag }}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </article>
+            {% endfor %}
             
-            <h3 class="post-title">
-                <a href="/blog/tlachtga/">tlachtga</a>
-            </h3>
-            
-            <p class="post-summary">Retro zola theme</p>
-            
-            <div class="post-tags">
-                <a href="/tags/zola/" class="tag">#zola</a>
-                <a href="/tags/themes/" class="tag">#themes</a>
-                <a href="/tags/witchcraft/" class="tag">#witchcraft</a>
-            </div>
-        </article>
+            {% if blog_section.pages | length > 5 %}
+                <div class="view-all">
+                    <a href="{{ blog_section.permalink }}" class="btn">View All Posts</a>
+                </div>
+            {% endif %}
+        {% else %}
+            <p>No posts yet. Check back soon!</p>
+        {% endif %}
     </section>
 </div>
 {% endblock %}
