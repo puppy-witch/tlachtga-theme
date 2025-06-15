@@ -1,3 +1,4 @@
+<!-- ~/Dev/tlachtga-theme/templates/base.html -->
 <!DOCTYPE html>
 <html lang="{% if page.extra.lang %}{{ page.extra.lang }}{% else %}en{% endif %}" 
       data-theme="{{ config.extra.default_theme | default(value='dark') }}">
@@ -12,6 +13,11 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ get_url(path='main.css') }}">
     
+    <!-- Google Fonts for themes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Cinzel:wght@300;400;600&family=Playfair+Display:wght@300;400;700&display=swap" rel="stylesheet">
+    
     {% block social_meta %}
     <meta property="og:title" content="{% block og_title %}{{ page.title | default(value=config.title) }}{% endblock %}">
     <meta property="og:description" content="{% block og_description %}{{ page.description | default(value=config.description) }}{% endblock %}">
@@ -21,10 +27,6 @@
 </head>
 
 <body class="{% if config.extra.terminal_font %}terminal-font{% endif %}">
-    {% if config.extra.retro_animations %}
-    <div class="scan-lines"></div>
-    {% endif %}
-    
     <header class="site-header">
         <div class="container">
             <div class="header-content">
@@ -34,38 +36,45 @@
                 
                 <nav class="main-nav">
                     <ul class="nav-menu">
-                        {% if config.extra.menu %}
-                            {% for item in config.extra.menu %}
-                            <li class="nav-item">
-                                <a href="{{ item.url }}" class="nav-link">{{ item.name }}</a>
-                            </li>
-                            {% endfor %}
-                        {% endif %}
+                        <li class="nav-item">
+                            <a href="{{ config.base_url }}" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ config.base_url }}/about" class="nav-link">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ get_section(path='blog/_index.md').permalink }}" class="nav-link">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ config.base_url }}/projects" class="nav-link">Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ get_taxonomy_url(kind='tags') }}" class="nav-link">Tags</a>
+                        </li>
                     </ul>
                     
-                    {% if config.extra.theme_switcher %}
                     <div class="theme-switcher">
                         <button id="theme-toggle" class="theme-toggle" aria-label="Switch theme">
                             🌙
                         </button>
-                            <div class="theme-menu" id="theme-menu">
-                                <button class="theme-option" data-theme="dark">
-                                    🌙 <span class="theme-name">Dark</span>
-                                </button>
-                                <button class="theme-option" data-theme="light">
-                                    ☀️ <span class="theme-name">Light</span>
-                                </button>
-                                <button class="theme-option" data-theme="retro">
-                                    📟 <span class="theme-name">Retro</span>
-                                </button>
-                                <button class="theme-option" data-theme="amber">
-                                    🟡 <span class="theme-name">Amber</span>
-                                </button>
-                            </div>
-                            
+                        <div class="theme-menu" id="theme-menu">
+                            <button class="theme-option" data-theme="dark">
+                                🌙 <span class="theme-name">Dark</span>
+                            </button>
+                            <button class="theme-option" data-theme="light">
+                                ☀️ <span class="theme-name">Light</span>
+                            </button>
+                            <button class="theme-option" data-theme="retro">
+                                📟 <span class="theme-name">Retro</span>
+                            </button>
+                            <button class="theme-option" data-theme="amber">
+                                🟡 <span class="theme-name">Amber</span>
+                            </button>
+                            <button class="theme-option" data-theme="purple">
+                                🔮 <span class="theme-name">Witch</span>
+                            </button>
                         </div>
                     </div>
-                    {% endif %}
                 </nav>
             </div>
         </div>
@@ -99,25 +108,25 @@
     </footer>
     
     <!-- Theme switcher JavaScript -->
-    {% if config.extra.theme_switcher %}
     <script>
         const toggle = document.getElementById('theme-toggle');
         const menu = document.getElementById('theme-menu');
         const options = document.querySelectorAll('.theme-option');
-
+        
         const themeIcons = {
             'dark': '🌙',
             'light': '☀️',
             'retro': '📟',
-            'amber': '🟡'
+            'amber': '🟡',
+            'purple': '🔮'
         };
-
+        
         // Toggle menu
         toggle.addEventListener('click', (e) => {
             e.stopPropagation();
             menu.classList.toggle('open');
         });
-
+        
         // Theme selection
         options.forEach(option => {
             option.addEventListener('click', () => {
@@ -126,7 +135,7 @@
                 menu.classList.remove('open');
             });
         });
-
+        
         // Set theme function
         function setTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme);
@@ -138,7 +147,7 @@
                 opt.classList.toggle('active', opt.dataset.theme === theme);
             });
         }
-
+        
         // Load saved theme or system preference
         function loadTheme() {
             const saved = localStorage.getItem('tlachtga-theme');
@@ -149,14 +158,14 @@
                 setTheme(systemDark ? 'dark' : 'light');
             }
         }
-
+        
         // Close menu on outside click
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.theme-switcher')) {
                 menu.classList.remove('open');
             }
         });
-
+        
         // Keyboard support
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && menu.classList.contains('open')) {
@@ -164,15 +173,14 @@
                 toggle.focus();
             }
         });
-
+        
         loadTheme();
-
+        
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
             if (!localStorage.getItem('tlachtga-theme')) {
                 setTheme(e.matches ? 'dark' : 'light');
             }
         });
     </script>
-    {% endif %}
 </body>
 </html>

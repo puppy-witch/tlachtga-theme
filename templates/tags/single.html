@@ -1,33 +1,47 @@
+<!-- ~/Dev/tlachtga-theme/templates/tags/single.html -->
 {% extends "base.html" %}
 
-{% block title %}Posts tagged "{{ term.name }}"{% endblock title %}
+{% block title %}Tag: {{ term.name }} | {{ config.title }}{% endblock %}
+{% block description %}Posts tagged with "{{ term.name }}"{% endblock %}
 
 {% block content %}
-<div class="taxonomy-page">
+<div class="taxonomy-content">
     <header class="taxonomy-header">
-        <h1 class="taxonomy-title">🏷️ Tagged with "{{ term.name }}"</h1>
-        <p class="taxonomy-count">{{ term.pages | length }} post{% if term.pages | length != 1 %}s{% endif %}</p>
+        <h1>Posts tagged with "<span class="tag-highlight">{{ term.name }}</span>"</h1>
+        <p class="post-count">{{ term.pages | length }} post{% if term.pages | length != 1 %}s{% endif %}</p>
     </header>
     
-    <div class="tagged-posts">
-        {% for page in term.pages %}
-        <article class="post-preview">
-            <h2><a href="{{ page.permalink }}">{{ page.title }}</a></h2>
-            {% if page.date %}
-            <time class="post-date">{{ page.date | date(format="%B %d, %Y") }}</time>
-            {% endif %}
-            {% if page.description %}
-            <p class="post-description">{{ page.description }}</p>
-            {% endif %}
-            {% if page.taxonomies.tags %}
-            <div class="post-tags">
-                {% for tag in page.taxonomies.tags %}
-                <a href="{{ get_taxonomy_url(kind="tags", name=tag) }}" class="tag">{{ tag }}</a>
-                {% endfor %}
-            </div>
-            {% endif %}
-        </article>
-        {% endfor %}
-    </div>
+    {% if term.pages %}
+        <div class="posts-grid">
+            {% for page in term.pages %}
+            <article class="post-card">
+                <div class="post-meta">
+                    <time class="post-date">{{ page.date | date(format="%B %d, %Y") }}</time>
+                    {% if page.reading_time %}
+                        <span class="read-time">{{ page.reading_time }} min read</span>
+                    {% endif %}
+                </div>
+                
+                <h2 class="post-title">
+                    <a href="{{ page.permalink }}">{{ page.title }}</a>
+                </h2>
+                
+                {% if page.description %}
+                    <p class="post-summary">{{ page.description }}</p>
+                {% elif page.summary %}
+                    <p class="post-summary">{{ page.summary }}</p>
+                {% endif %}
+                
+                {% if page.taxonomies.tags %}
+                    <div class="post-tags">
+                        {% for tag in page.taxonomies.tags %}
+                            <a href="{{ get_taxonomy_url(kind="tags", name=tag) }}" class="tag {% if tag == term.name %}current-tag{% endif %}">#{{ tag }}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </article>
+            {% endfor %}
+        </div>
+    {% endif %}
 </div>
-{% endblock content %}
+{% endblock %}

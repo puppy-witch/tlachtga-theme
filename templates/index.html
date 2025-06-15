@@ -1,3 +1,4 @@
+<!-- ~/Dev/tlachtga-theme/templates/index.html -->
 {% extends "base.html" %}
 
 {% block content %}
@@ -18,6 +19,9 @@
                     <time class="post-date">{{ page.date | date(format="%B %d, %Y") }}</time>
                     {% if page.reading_time %}
                         <span class="read-time">{{ page.reading_time }} min read</span>
+                    {% endif %}
+                    {% if page.word_count %}
+                        <span class="word-count">{{ page.word_count }} words</span>
                     {% endif %}
                 </div>
                 
@@ -47,7 +51,9 @@
                 </div>
             {% endif %}
         {% else %}
-            <p>No posts yet. Check back soon!</p>
+            <div class="no-posts">
+                <p>No posts yet. Check back soon! ✨</p>
+            </div>
         {% endif %}
     </section>
 </div>

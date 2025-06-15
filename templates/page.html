@@ -1,29 +1,71 @@
+<!-- ~/Dev/tlachtga-theme/templates/page.html -->
 {% extends "base.html" %}
 
-{% block title %}{{ page.title }}{% endblock title %}
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description | default(value=page.summary) | default(value=config.description) }}{% endblock %}
 
 {% block content %}
-<article class="page">
-    <header class="page-header">
-        <h1 class="page-title">{{ page.title }}</h1>
+<article class="article-content">
+    <header class="article-header">
+        <h1>{{ page.title }}</h1>
+        
+        <div class="article-meta">
+            <time class="date" datetime="{{ page.date | date(format='%Y-%m-%d') }}">
+                {{ page.date | date(format="%B %d, %Y") }}
+            </time>
+            {% if page.reading_time %}
+                <span class="reading-time">• {{ page.reading_time }} min read</span>
+            {% endif %}
+            {% if page.word_count %}
+                <span class="word-count">• {{ page.word_count }} words</span>
+            {% endif %}
+        </div>
+        
         {% if page.description %}
-        <p class="page-description">{{ page.description }}</p>
+            <p class="article-description">{{ page.description }}</p>
         {% endif %}
-        {% if page.date %}
-        <time class="page-date">{{ page.date | date(format="%B %d, %Y") }}</time>
+        
+        {% if page.taxonomies.tags %}
+            <div class="article-tags">
+                {% for tag in page.taxonomies.tags %}
+                    <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}" class="tag">
+                        #{{ tag }}
+                    </a>
+                {% endfor %}
+            </div>
         {% endif %}
     </header>
     
-    <div class="page-content">
+    <div class="article-body">
         {{ page.content | safe }}
     </div>
     
-    {% if page.extra.show_edit_link %}
-    <footer class="page-footer">
-        <a href="https://github.com/puppy-witch/puppy-witch.github.io/edit/main/content/{{ page.relative_path }}" class="edit-link">
-            📝 Edit this page
-        </a>
-    </footer>
+    {% if page.taxonomies.categories %}
+        <footer class="article-footer">
+            <div class="categories">
+                <strong>Categories:</strong>
+                {% for category in page.taxonomies.categories %}
+                    <a href="{{ get_taxonomy_url(kind='categories', name=category) }}" class="category">
+                        {{ category }}
+                    </a>
+                    {% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </div>
+        </footer>
     {% endif %}
+    
+    <nav class="article-nav">
+        {% if page.lighter %}
+            <a href="{{ page.lighter.permalink }}" class="nav-link prev">
+                ← {{ page.lighter.title }}
+            </a>
+        {% endif %}
+        
+        {% if page.heavier %}
+            <a href="{{ page.heavier.permalink }}" class="nav-link next">
+                {{ page.heavier.title }} →
+            </a>
+        {% endif %}
+    </nav>
 </article>
-{% endblock content %}
+{% endblock %}

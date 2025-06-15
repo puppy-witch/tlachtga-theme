@@ -1,20 +1,25 @@
+<!-- ~/Dev/tlachtga-theme/templates/tags/list.html -->
 {% extends "base.html" %}
 
-{% block title %}All Tags{% endblock title %}
+{% block title %}Tags | {{ config.title }}{% endblock %}
+{% block description %}All tags used on {{ config.title }}{% endblock %}
 
 {% block content %}
 <div class="taxonomy-list">
     <header class="taxonomy-header">
-        <h1 class="taxonomy-title">🏷️ All Tags</h1>
-        <p class="taxonomy-description">Explore posts by topic</p>
+        <h1>All Tags</h1>
+        <p class="tag-count">{{ terms | length }} tag{% if terms | length != 1 %}s{% endif %} total</p>
     </header>
     
-    <div class="tag-cloud">
-        {% for term in terms %}
-        <a href="{{ term.permalink }}" class="tag tag-{{ term.pages | length }}">
-            {{ term.name }} ({{ term.pages | length }})
-        </a>
-        {% endfor %}
-    </div>
+    {% if terms %}
+        <div class="tag-cloud">
+            {% for term in terms %}
+                <a href="{{ term.permalink }}" class="tag-item" data-count="{{ term.pages | length }}">
+                    <span class="tag-name">#{{ term.name }}</span>
+                    <span class="tag-count">{{ term.pages | length }}</span>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
 </div>
-{% endblock content %}
+{% endblock %}
