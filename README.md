@@ -29,7 +29,7 @@ zola build
 - **Theme Switching** - Dark/light modes with system preference detection
 - **Accessible** - Screen reader support, keyboard navigation, high contrast
 - **Custom Shortcodes** - Alerts, code blocks, project cards, and more
-- **Responsive Design** - Works on all devices
+- **Responsive Design** - Works on all devices *note turns out this is not quite accurate, having some issues with it on mobile, will update tmr
 - **Performance** - Fast loading, minimal JavaScript
 - **Customisable** - Easy color and font customisation
 
@@ -45,7 +45,7 @@ Important message here!
 ### Spell Block
 ```markdown
 {% spell(title="My Spell", difficulty="beginner") %}
-Instructions for your digital magic...
+Instructions for your casting...
 {% end %}
 ```
 
@@ -66,5 +66,4 @@ Anti-Capitalist Software (License)[/LICENSE]
 
 ## Credits
 
-Created by [Puppy Witch](https://github.com/puppy-witch) with love and lots of caffeine ☕
-EOF
+Created by [Puppy Witch](https://github.com/puppy-witch)
