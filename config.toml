@@ -1,0 +1,87 @@
+base_url = "https://puppy-witch.github.io"
+title = "My Virtual Grimoire & Blog"
+description = "Autistic puppy girl hacker dev, uni student (undergrad, biochem & comp sci), tinkerer, technomancer."
+
+theme = "tlachtga"
+compile_sass = true
+highlight_code = true
+highlight_theme = "base16-ocean-dark"
+build_search_index = true
+generate_feed = true
+minify_html = true
+
+
+default_language = "en"
+
+[link_checker]
+skip_prefixes = ["mailto:", "tel:"]
+
+[slugify]
+paths = "on"
+taxonomies = "on"
+anchors = "on"
+
+[search]
+include_title = true
+include_description = true
+include_content = true
+
+[taxonomies]
+tags = {feed = true}
+categories = {feed = true}
+
+[markdown]
+highlight_code = true
+render_emoji = true
+external_links_target_blank = true
+external_links_no_follow = true
+external_links_no_referrer = true
+smart_punctuation = true
+
+[extra]
+# Author
+author = "Puppy Witch"
+pronouns = "she/they/it"
+github = "puppy-witch"
+mastodon = "" # might make one later
+
+# Theme features
+default_theme = "dark"
+theme_switcher = true
+retro_animations = true
+terminal_font = false
+accessibility_mode = true
+respect_reduced_motion = true
+
+# Content features
+estimated_read_time = true
+show_author = true
+show_categories = true
+show_related_posts = true
+enable_comments = false
+
+# Analytics
+analytics_provider = "none"  # or "goatcounter" for privacy-friendly
+goat_counter = ""  # your goatcounter code
+
+social_links = [
+    {name = "GitHub", url = "https://github.com/puppy-witch", icon = "github", rel = "me"},
+    {name = "Mastodon", url = "https://tech.lgbt/@puppy-witch", icon = "mastodon", rel = "me"},
+    {name = "Matrix", url = "@puppy-witch:matrix.org", icon = "matrix"},
+]
+
+# Navigation
+menu = [
+    {name = "Home", url = "/"},
+    {name = "About", url = "/about/"},
+    {name = "Blog", url = "/blog/"},
+    {name = "Projects", url = "/projects/"},
+    {name = "Tags", url = "/tags/"},
+]
+
+# Footer links
+footer_links = [
+    {name = "Anti-Capitalist License", url = "/license/"},
+    {name = "Accessibility", url = "/accessibility/"},
+    {name = "Source Code", url = "https://github.com/puppy-witch/puppy-witch.github.io"},
+]

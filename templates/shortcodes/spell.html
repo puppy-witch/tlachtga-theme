@@ -1,0 +1,21 @@
+<div class="spell-block">
+    <div class="spell-header">
+        <h3 class="spell-title">🔮 {{ title | default(value="Digital Spell") }}</h3>
+        {% if difficulty %}
+        <span class="spell-difficulty difficulty-{{ difficulty }}">{{ difficulty | title }}</span>
+        {% endif %}
+    </div>
+    <div class="spell-content">
+        {{ body | markdown | safe }}
+    </div>
+    {% if ingredients %}
+    <div class="spell-ingredients">
+        <h4>Required Components:</h4>
+        <ul>
+        {% for ingredient in ingredients %}
+            <li>{{ ingredient }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>

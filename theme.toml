@@ -1,0 +1,20 @@
+name = "tlachtga"
+description = "Retro Zola Theme"
+license = "Anti-Capitalist Software License 1.4"
+homepage = "https://github.com/puppy-witch/tlachtga-theme"
+repository = "https://github.com/puppy-witch/tlachtga-theme"
+min_version = "0.17.0"
+demo = "https://puppy-witch.github.io"
+
+[author]
+name = "Puppy Witch"
+homepage = "https://github.com/puppy-witch"
+website = "https://puppy-witch.github.io"
+
+[extra]
+default_theme = "dark"
+theme_switcher = true
+retro_animations = false
+terminal_font = false
+accessibility_mode = false
+reduced_motion = false

@@ -1,0 +1,58 @@
+.scan-lines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--retro-green), transparent);
+        animation: scan 2s linear infinite;
+        opacity: 0.6;
+    }
+}
+
+@keyframes scan {
+    0% { transform: translateY(-100vh); }
+    100% { transform: translateY(100vh); }
+}
+
+// Terminal-style typography
+.terminal-font {
+    font-family: var(--font-family-mono);
+    
+    .content {
+        background: var(--terminal-bg);
+        color: var(--retro-green);
+        padding: 1rem;
+        border-radius: 0;
+        
+        &::before {
+            content: '> ';
+            color: var(--retro-amber);
+        }
+    }
+}
+[data-theme="retro"] {
+    button, .btn {
+        background: var(--terminal-bg);
+        border: 2px solid var(--retro-green);
+        color: var(--retro-green);
+        font-family: var(--font-family-mono);
+        text-transform: uppercase;
+        
+        &:hover {
+            background: var(--retro-green);
+            color: var(--terminal-bg);
+            box-shadow: 0 0 10px var(--retro-green);
+        }
+    }
+}

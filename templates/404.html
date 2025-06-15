@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}404 - Page Not Found{% endblock title %}
+
+{% block content %}
+<div class="error-page error-404">
+    <div class="error-content">
+        <h1 class="error-title">🔮 Spell Not Found</h1>
+        <p class="error-message">The magical page you seek has vanished into the digital ether!</p>
+        
+        <div class="error-details">
+            <p>This could happen because:</p>
+            <ul>
+                <li>The spell was miscast (wrong URL)</li>
+                <li>The page moved to another realm</li>
+                <li>The link has been hexed</li>
+            </ul>
+        </div>
+        
+        <div class="error-actions">
+            <a href="{{ get_url(path="") }}" class="btn-primary">🏠 Return to Grimoire</a>
+            <a href="{{ get_url(path="blog") }}" class="btn-secondary">📚 Browse Spells</a>
+            <a href="{{ get_url(path="about") }}" class="btn-secondary">🧙‍♀️ About the Witch</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

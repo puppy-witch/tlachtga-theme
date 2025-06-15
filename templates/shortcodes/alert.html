@@ -1,0 +1,12 @@
+<div class="alert alert-{{ type | default(value="info") }}" role="alert">
+    <div class="alert-icon" aria-hidden="true">
+        {% if type == "warning" %}⚠️
+        {% elif type == "error" %}❌
+        {% elif type == "success" %}✅
+        {% elif type == "magic" %}🔮
+        {% else %}ℹ️{% endif %}
+    </div>
+    <div class="alert-content">
+        {{ body | markdown | safe }}
+    </div>
+</div>

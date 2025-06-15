@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="{% if page.extra.lang %}{{ page.extra.lang }}{% else %}en{% endif %}" 
+      data-theme="{{ config.extra.default_theme | default(value='dark') }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Title and meta -->
+    <title>{% block title %}{{ config.title }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{{ config.description }}{% endblock %}">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ get_url(path='main.css') }}">
+    
+    {% block social_meta %}
+    <meta property="og:title" content="{% block og_title %}{{ page.title | default(value=config.title) }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ page.description | default(value=config.description) }}{% endblock %}">
+    <meta property="og:type" content="{% if page %}article{% else %}website{% endif %}">
+    <meta property="og:url" content="{{ current_url | safe }}">
+    {% endblock %}
+</head>
+
+<body class="{% if config.extra.terminal_font %}terminal-font{% endif %}">
+    {% if config.extra.retro_animations %}
+    <div class="scan-lines"></div>
+    {% endif %}
+    
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="{{ config.base_url }}" class="brand-link">
+                    {{ config.title }}
+                </a>
+                
+                <nav class="main-nav">
+                    <ul class="nav-menu">
+                        {% if config.extra.menu %}
+                            {% for item in config.extra.menu %}
+                            <li class="nav-item">
+                                <a href="{{ item.url }}" class="nav-link">{{ item.name }}</a>
+                            </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                    
+                    {% if config.extra.theme_switcher %}
+                    <div class="theme-switcher">
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Switch theme">
+                            🌙
+                        </button>
+                        <div class="theme-menu" id="theme-menu">
+                            <button class="theme-option" data-theme="dark">
+                                🌙 <span class="theme-name">Dark</span>
+                            </button>
+                            <button class="theme-option" data-theme="light">
+                                ☀️ <span class="theme-name">Light</span>
+                            </button>
+                            <button class="theme-option" data-theme="retro">
+                                📟 <span class="theme-name">Retro</span>
+                            </button>
+                        </div>
+                    </div>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main content area -->
+    <main class="main-content" id="main">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                {% if config.extra.social_links %}
+                <div class="social-links">
+                    {% for link in config.extra.social_links %}
+                    <a href="{{ link.url }}" class="social-link" title="{{ link.name }}">
+                        {{ link.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <p>&copy; {{ now() | date(format="%Y") }} {{ config.extra.author | default(value=config.title) }}</p>
+                <p>Powered by <a href="https://www.getzola.org/">Zola</a> & Tlachtga theme</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Theme switcher JavaScript -->
+    {% if config.extra.theme_switcher %}
+    <script>
+        // Simple but effective theme switcher
+        const toggle = document.getElementById('theme-toggle');
+        const menu = document.getElementById('theme-menu');
+        const options = document.querySelectorAll('.theme-option');
+        
+        const themeIcons = {
+            'dark': '🌙',
+            'light': '☀️',
+            'retro': '📟'
+        };
+        
+        // Toggle menu
+        toggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menu.classList.toggle('open');
+        });
+        
+        // Theme selection
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                const theme = option.dataset.theme;
+                setTheme(theme);
+                menu.classList.remove('open');
+            });
+        });
+        
+        // Set theme function
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('tlachtga-theme', theme);
+            toggle.textContent = themeIcons[theme] || '🌙';
+            
+            // Update active state
+            options.forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.theme === theme);
+            });
+        }
+        
+        // Load saved theme or system preference
+        function loadTheme() {
+            const saved = localStorage.getItem('tlachtga-theme');
+            if (saved) {
+                setTheme(saved);
+            } else {
+                const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                setTheme(systemDark ? 'dark' : 'light');
+            }
+        }
+        
+        // Close menu on outside click
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.theme-switcher')) {
+                menu.classList.remove('open');
+            }
+        });
+        
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && menu.classList.contains('open')) {
+                menu.classList.remove('open');
+                toggle.focus();
+            }
+        });
+        
+        loadTheme();
+        
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('tlachtga-theme')) {
+                setTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+    </script>
+    {% endif %}
+</body>
+</html>

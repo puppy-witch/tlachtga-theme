@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}All Categories{% endblock title %}
+
+{% block content %}
+<div class="taxonomy-list">
+    <header class="taxonomy-header">
+        <h1 class="taxonomy-title">📁 All Categories</h1>
+        <p class="taxonomy-description">Browse posts by category</p>
+    </header>
+    
+    <div class="category-list">
+        {% for term in terms %}
+        <div class="category-item">
+            <h3><a href="{{ term.permalink }}">{{ term.name }}</a></h3>
+            <p class="category-count">{{ term.pages | length }} post{% if term.pages | length != 1 %}s{% endif %}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

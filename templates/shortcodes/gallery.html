@@ -1,0 +1,15 @@
+<div class="image-gallery">
+    {% if title %}
+    <h3 class="gallery-title">{{ title }}</h3>
+    {% endif %}
+    <div class="gallery-grid">
+        {% for image in images %}
+        <figure class="gallery-item">
+            <img src="{{ image.src }}" alt="{{ image.alt }}" loading="lazy">
+            {% if image.caption %}
+            <figcaption>{{ image.caption }}</figcaption>
+            {% endif %}
+        </figure>
+        {% endfor %}
+    </div>
+</div>

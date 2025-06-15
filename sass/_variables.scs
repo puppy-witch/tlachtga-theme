@@ -1,0 +1,45 @@
+:root {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2a2a2a;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --accent-primary: #7c3aed;
+  --retro-green: #00ff00;
+  --retro-amber: #ffb000;
+  --retro-cyan: #00ffff;
+  --terminal-bg: #000000;
+  --minimal-bg: #0d1117;
+  --minimal-fg: #c9d1d9;
+  --minimal-accent: #f78166;
+  --modern-bg: #fafafa;
+  --modern-fg: #1a1a1a;
+  --modern-accent: #2563eb;
+  --syntax-comment: #6a9955;
+  --syntax-keyword: #569cd6;
+  --syntax-string: #ce9178;
+  --syntax-function: #dcdcaa;
+  --syntax-variable: #9cdcfe;
+}
+[data-theme="dark"] {
+  --bg-primary: var(--minimal-bg);
+  --text-primary: var(--minimal-fg);
+}
+
+[data-theme="light"] {
+  --bg-primary: var(--modern-bg);
+  --text-primary: var(--modern-fg);
+}
+
+[data-theme="retro"] {
+  --bg-primary: var(--terminal-bg);
+  --text-primary: var(--retro-green);
+  --accent-primary: var(--retro-amber);
+}
+
+$font-family-mono: 'JetBrains Mono', 'Hack', 'Fira Code', monospace;
+$font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;

@@ -1,0 +1,22 @@
+<div class="code-block">
+    {% if title %}
+    <div class="code-header">
+        <span class="code-title">{{ title }}</span>
+        {% if lang %}
+        <span class="code-lang">{{ lang }}</span>
+        {% endif %}
+    </div>
+    {% endif %}
+    <div class="code-content">
+        {% if lang %}
+        <pre><code class="language-{{ lang }}">{{ body }}</code></pre>
+        {% else %}
+        <pre><code>{{ body }}</code></pre>
+        {% endif %}
+    </div>
+    {% if description %}
+    <div class="code-description">
+        {{ description | markdown | safe }}
+    </div>
+    {% endif %}
+</div>

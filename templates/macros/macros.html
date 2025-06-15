@@ -1,0 +1,54 @@
+{% macro render_post_meta(page) %}
+<div class="post-meta">
+    {% if page.date %}
+    <time class="post-date" datetime="{{ page.date }}">
+        📅 {{ page.date | date(format="%B %d, %Y") }}
+    </time>
+    {% endif %}
+    
+    {% if page.extra.estimated_read_time and config.extra.estimated_read_time %}
+    <span class="read-time">⏱️ {{ page.reading_time }} min read</span>
+    {% endif %}
+    
+    {% if page.extra.show_author and config.extra.show_author and config.extra.author %}
+    <span class="post-author">✍️ {{ config.extra.author }}</span>
+    {% endif %}
+</div>
+{% endmacro render_post_meta %}
+
+{% macro render_tags(page) %}
+{% if page.taxonomies.tags and config.extra.show_categories %}
+<div class="post-tags">
+    <span class="tags-label">🏷️ Tags:</span>
+    {% for tag in page.taxonomies.tags %}
+    <a href="{{ get_taxonomy_url(kind="tags", name=tag) }}" class="tag">{{ tag }}</a>
+    {% endfor %}
+</div>
+{% endif %}
+{% endmacro render_tags %}
+
+{% macro render_categories(page) %}
+{% if page.taxonomies.categories and config.extra.show_categories %}
+<div class="post-categories">
+    <span class="categories-label">📁 Categories:</span>
+    {% for category in page.taxonomies.categories %}
+    <a href="{{ get_taxonomy_url(kind="categories", name=category) }}" class="category">{{ category }}</a>
+    {% endfor %}
+</div>
+{% endif %}
+{% endmacro render_categories %}
+
+{% macro render_social_links() %}
+{% if config.extra.social_links %}
+<div class="social-links">
+    {% for link in config.extra.social_links %}
+    <a href="{{ link.url }}" class="social-link" {% if link.rel %}rel="{{ link.rel }}"{% endif %} target="_blank">
+        {% if link.icon %}
+        <span class="icon icon-{{ link.icon }}" aria-hidden="true"></span>
+        {% endif %}
+        <span class="sr-only">{{ link.name }}</span>
+    </a>
+    {% endfor %}
+</div>
+{% endif %}
+{% endmacro render_social_links %}

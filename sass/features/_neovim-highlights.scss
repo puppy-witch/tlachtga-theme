@@ -1,0 +1,40 @@
+.highlight {
+    background: var(--minimal-bg);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    position: relative;
+    
+    &::before {
+        content: attr(data-lang);
+        position: absolute;
+        top: 0.5rem;
+        right: 0.75rem;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+    }
+    
+    code {
+        font-family: var(--font-family-mono);
+        font-size: 0.875rem;
+        line-height: 1.5;
+        color: var(--minimal-fg);
+    }
+    
+    .line-numbers {
+        color: var(--text-secondary);
+        margin-right: 1rem;
+        user-select: none;
+    }
+}
+.highlight {
+    .comment { color: var(--syntax-comment); }
+    .keyword { color: var(--syntax-keyword); font-weight: bold; }
+    .string { color: var(--syntax-string); }
+    .function { color: var(--syntax-function); }
+    .variable { color: var(--syntax-variable); }
+    .number { color: #b5cea8; }
+    .operator { color: #d4d4d4; }
+}

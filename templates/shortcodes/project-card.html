@@ -1,0 +1,39 @@
+<div class="project-card">
+    <div class="project-header">
+        <h3 class="project-title">
+            {% if url %}<a href="{{ url }}">{{ title }}</a>
+            {% else %}{{ title }}{% endif %}
+        </h3>
+        {% if status %}
+        <span class="project-status status-{{ status | lower | replace(from=" ", to="-") }}">{{ status }}</span>
+        {% endif %}
+    </div>
+    
+    {% if description %}
+    <p class="project-description">{{ description }}</p>
+    {% endif %}
+    
+    <div class="project-content">
+        {{ body | markdown | safe }}
+    </div>
+    
+    {% if tech_stack %}
+    <div class="tech-stack">
+        {% for tech in tech_stack %}
+        <span class="tech-badge">{{ tech }}</span>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <div class="project-links">
+        {% if github_url %}
+        <a href="{{ github_url }}" class="project-link github-link">📱 GitHub</a>
+        {% endif %}
+        {% if demo_url %}
+        <a href="{{ demo_url }}" class="project-link demo-link">🚀 Demo</a>
+        {% endif %}
+        {% if blog_url %}
+        <a href="{{ blog_url }}" class="project-link blog-link">📝 Blog Post</a>
+        {% endif %}
+    </div>
+</div>
