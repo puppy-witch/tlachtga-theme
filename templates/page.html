@@ -1,4 +1,3 @@
-<!-- ~/Dev/tlachtga-theme/templates/page.html -->
 {% extends "base.html" %}
 
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
@@ -28,7 +27,7 @@
         {% if page.taxonomies.tags %}
             <div class="article-tags">
                 {% for tag in page.taxonomies.tags %}
-                    <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}" class="tag">
+                    <a href="/tags/{{ tag | slugify }}" class="tag">
                         #{{ tag }}
                     </a>
                 {% endfor %}
@@ -45,7 +44,7 @@
             <div class="categories">
                 <strong>Categories:</strong>
                 {% for category in page.taxonomies.categories %}
-                    <a href="{{ get_taxonomy_url(kind='categories', name=category) }}" class="category">
+                    <a href="/categories/{{ category | slugify }}" class="category">
                         {{ category }}
                     </a>
                     {% if not loop.last %}, {% endif %}

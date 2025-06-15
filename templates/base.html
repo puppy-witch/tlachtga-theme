@@ -1,4 +1,3 @@
-<!-- ~/Dev/tlachtga-theme/templates/base.html -->
 <!DOCTYPE html>
 <html lang="{% if page.extra.lang %}{{ page.extra.lang }}{% else %}en{% endif %}" 
       data-theme="{{ config.extra.default_theme | default(value='dark') }}">
@@ -43,13 +42,13 @@
                             <a href="{{ config.base_url }}/about" class="nav-link">About</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ get_section(path='blog/_index.md').permalink }}" class="nav-link">Blog</a>
+                            <a href="{{ config.base_url }}/blog" class="nav-link">Blog</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ config.base_url }}/projects" class="nav-link">Projects</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ get_taxonomy_url(kind='tags') }}" class="nav-link">Tags</a>
+                            <a href="{{ config.base_url }}/tags" class="nav-link">Tags</a>
                         </li>
                     </ul>
                     

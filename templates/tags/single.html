@@ -1,4 +1,3 @@
-<!-- ~/Dev/tlachtga-theme/templates/tags/single.html -->
 {% extends "base.html" %}
 
 {% block title %}Tag: {{ term.name }} | {{ config.title }}{% endblock %}
@@ -35,7 +34,7 @@
                 {% if page.taxonomies.tags %}
                     <div class="post-tags">
                         {% for tag in page.taxonomies.tags %}
-                            <a href="{{ get_taxonomy_url(kind="tags", name=tag) }}" class="tag {% if tag == term.name %}current-tag{% endif %}">#{{ tag }}</a>
+                            <a href="/tags/{{ tag | slugify }}" class="tag {% if tag == term.name %}current-tag{% endif %}">#{{ tag }}</a>
                         {% endfor %}
                     </div>
                 {% endif %}
